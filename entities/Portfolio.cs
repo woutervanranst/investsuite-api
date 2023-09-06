@@ -1,10 +1,21 @@
 ﻿using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Entities;
 
 public class Portfolio
 {
-    [JsonPropertyName("id")]
-    public string Id { get; set; } = Guid.NewGuid().ToString();
+    [JsonProperty(PropertyName = "id")]
+    public string Id { get; set; } = $"P{Guid.NewGuid()}".ToUpperInvariant();
+
     public string UserId { get; set; }
+}
+
+public class User
+{
+    [JsonProperty(PropertyName = "id")]
+    public string Id   { get; set; } = $"U{Guid.NewGuid()}".ToUpperInvariant();
+
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
 }

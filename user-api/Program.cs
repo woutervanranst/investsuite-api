@@ -1,3 +1,6 @@
+using Entities;
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,29 +19,21 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
+var cosmosKey          = builder.Configuration["CosmosKey"];
+var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
+var containerName      = builder.Configuration["CosmosContainerName"];
 
-app.MapGet("/weatherforecast", () =>
+var context = new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
+
+app.MapGet("/users/{userId}/exists", async (string userId) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+    var exists = await context.UserExistsAsync(userId);
+
+    if (exists)
+        return Results.NoContent();
+    else
+        return Results.NotFound();
+});
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

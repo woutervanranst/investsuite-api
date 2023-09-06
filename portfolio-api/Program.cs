@@ -1,5 +1,7 @@
+using System.Net;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient("UserApi", c =>
+{
+    c.BaseAddress = new Uri(builder.Configuration["UserApiUrl"]);
+});
 
 var app = builder.Build();
 
@@ -24,7 +30,9 @@ var cosmosKey          = builder.Configuration["CosmosKey"];
 var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
 var containerName      = builder.Configuration["CosmosContainerName"];
 
-var portfoliosContext = new CosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
+var context = new PortfolioCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
+
+
 
 app.MapGet("/portfolios", async ([FromQuery] string userId) =>
 {
@@ -33,9 +41,27 @@ app.MapGet("/portfolios", async ([FromQuery] string userId) =>
         return Results.BadRequest("UserId is required");
     }
 
-    var portfolios = await portfoliosContext.GetPortfoliosByUserIdAsync(userId).ToListAsync();
+    var portfolios = await context.GetPortfoliosByUserIdAsync(userId).ToListAsync();
 
     return Results.Ok(portfolios);
+});
+
+app.MapPost("/portfolios", async (Portfolio p, IHttpClientFactory clientFactory) =>
+{
+    // Validate User
+    var c = clientFactory.CreateClient("UserApi");
+    var r = await c.GetAsync($"/users/{p.UserId}/exists");
+    
+    if (r.StatusCode == HttpStatusCode.NotFound)
+        return Results.BadRequest("User does not exist");
+
+    // Validate Portfolio
+    if (p is null)
+        return Results.BadRequest("Portfolio is required");
+
+    p = await context.CreatePortfolioAsync(p);
+
+    return Results.Created($"/portfolio/{p.Id}", p);
 });
 
 //var summaries = new[]
