@@ -19,16 +19,23 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var cosmosEndpoint          = builder.Configuration["CosmosEndpoint"];
-var cosmosKey               = builder.Configuration["CosmosKey"];
-var cosmosDatabaseName      = builder.Configuration["CosmosDatabaseName"];
-var portfoliosContainerName = builder.Configuration["PortfoliosContainerName"];
+var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
+var cosmosKey          = builder.Configuration["CosmosKey"];
+var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
+var containerName      = builder.Configuration["CosmosContainerName"];
 
-var portfoliosContext = new CosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, portfoliosContainerName);
+var portfoliosContext = new CosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
 
 app.MapGet("/portfolios", async ([FromQuery] string userId) =>
 {
+    if (string.IsNullOrWhiteSpace(userId))
+    {
+        return Results.BadRequest("UserId is required");
+    }
 
+    var portfolios = await portfoliosContext.GetPortfoliosByUserIdAsync(userId).ToListAsync();
+
+    return Results.Ok(portfolios);
 });
 
 //var summaries = new[]
