@@ -2,6 +2,8 @@
 
 This repository demonstrates a reimplementation of the InvestSuite API in ASP.NET Core.
 
+![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/woutervanranst/investsuite-api/master/architecture.puml)
+
 # API Design First Approach
 
 ## API Definition
