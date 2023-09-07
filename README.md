@@ -4,6 +4,10 @@ https://openapi-generator.tech/docs/generators/csharp/
 
 https://github.com/OpenAPITools/openapi-generator
 
+https://github.com/alekshura/SourceApi
+
+https://github.com/RicoSuter/NSwag
+
 ```wsl
 
 docker run --rm \
