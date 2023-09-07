@@ -1,0 +1,15 @@
+@startuml
+component "Portfolio API" as PortfolioApi
+component "User API" as UserApi
+
+PortfolioApi -r-> UserApi : calls
+
+database "CosmosDB" {
+    entity "[Portfolio Collection]" as PortfolioData
+    entity "[User Collection]" as UserData
+}
+
+
+PortfolioApi --> PortfolioData : reads/writes
+UserApi --> UserData : reads/writes
+@enduml
