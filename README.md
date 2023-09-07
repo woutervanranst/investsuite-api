@@ -1,21 +1,22 @@
+# API Design First Approach
+
+## API Definition
+
 https://blue-software.stoplight.io/docs/user-api/
+
+## With NSwagStudio
+
+https://github.com/RicoSuter/NSwag
+
+
+https://srikargandhi.medium.com/api-design-first-approach-d02505306b3
+
+## With OpenApiGeneratorCli
 
 https://openapi-generator.tech/docs/generators/csharp/
 
 https://github.com/OpenAPITools/openapi-generator
 
-
-
-https://github.com/RicoSuter/NSwag
-
-
-
-
-
-  https://srikargandhi.medium.com/api-design-first-approach-d02505306b3
-
-
-  # With OpenApiGeneratorCli
 
   ```wsl
 docker run --rm \
@@ -27,6 +28,12 @@ docker run --rm \
 
   ```
 
-# With SourceAPI
+## With SourceAPI
 
 https://github.com/alekshura/SourceApi
+
+# Secrets
+
+https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
+
+dotnet user-secrets set "CosmosDb:Key" "12345"

@@ -9,10 +9,10 @@ namespace UserApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
-            var cosmosKey          = builder.Configuration["CosmosKey"];
-            var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
-            var containerName      = builder.Configuration["CosmosContainerName"];
+            var cosmosEndpoint     = builder.Configuration["CosmosDb:Endpoint"];
+            var cosmosKey          = builder.Configuration["CosmosDb:Key"];
+            var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"];
+            var containerName      = builder.Configuration["CosmosDb:ContainerName"];
 
             // Add services to the container.
             builder.Services.AddScoped<UserCosmosDbContext>(_ => new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName));

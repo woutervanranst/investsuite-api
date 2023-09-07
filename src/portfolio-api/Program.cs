@@ -25,10 +25,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
-var cosmosKey          = builder.Configuration["CosmosKey"];
-var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
-var containerName      = builder.Configuration["CosmosContainerName"];
+var cosmosEndpoint     = builder.Configuration["CosmosDb:Endpoint"];
+var cosmosKey          = builder.Configuration["CosmosDb:Key"];
+var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"];
+var containerName      = builder.Configuration["CosmosDb:ContainerName"];
 
 var context = new PortfolioCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
 
@@ -50,7 +50,7 @@ app.MapPost("/portfolios", async (PortfolioDto p, IHttpClientFactory clientFacto
 {
     // Validate User
     var c = clientFactory.CreateClient("UserApi");
-    var r = await c.GetAsync($"/users/{p.UserId}/exists");
+    var r = await c.GetAsync($"/users/{p.UserId}");
     
     if (r.StatusCode == HttpStatusCode.NotFound)
         return Results.BadRequest("User does not exist");
