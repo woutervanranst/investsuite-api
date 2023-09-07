@@ -1,3 +1,7 @@
+# InvestSuite API
+
+This repository demonstrates a reimplementation of the InvestSuite API in ASP.NET Core.
+
 # API Design First Approach
 
 ## API Definition
