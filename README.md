@@ -4,20 +4,23 @@ This repository demonstrates a reimplementation of the InvestSuite API in ASP.NE
 
 ![](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/woutervanranst/investsuite-api/master/architecture.puml)
 
-# API Design First Approach
+Features:
+- Design-first API approach
 
-## API Definition
+## API Design First Approach
+
+### API Definition
 
 https://blue-software.stoplight.io/docs/user-api/
 
-## With NSwagStudio
+### With NSwagStudio
 
 https://github.com/RicoSuter/NSwag
 
 
 https://srikargandhi.medium.com/api-design-first-approach-d02505306b3
 
-## With OpenApiGeneratorCli
+### With OpenApiGeneratorCli (not used)
 
 https://openapi-generator.tech/docs/generators/csharp/
 
@@ -34,11 +37,11 @@ docker run --rm \
 
   ```
 
-## With SourceAPI
+## With SourceAPI (not used)
 
 https://github.com/alekshura/SourceApi
 
-# Secrets
+## Secrets
 
 https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-7.0&tabs=windows
 

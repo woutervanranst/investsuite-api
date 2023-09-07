@@ -6,6 +6,9 @@ PortfolioApi -r-> UserApi : calls
 
 database "CosmosDB" {
     entity "[Portfolio Collection]" as PortfolioData
+}
+
+database "CosmosDB" {
     entity "[User Collection]" as UserData
 }
 
