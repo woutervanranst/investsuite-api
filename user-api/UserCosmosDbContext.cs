@@ -10,6 +10,12 @@ public class UserCosmosDbContext : CosmosDbContext
     {
     }
 
+    public async Task<User> GetUserAsync(string userId)
+    {
+        var r = await container.ReadItemAsync<User>(userId, new PartitionKey(userId));
+        return r.Resource;
+    }
+
     public async Task<bool> UserExistsAsync(string userId)
     {
         try

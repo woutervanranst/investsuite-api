@@ -26,6 +26,13 @@ var containerName      = builder.Configuration["CosmosContainerName"];
 
 var context = new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
 
+app.MapGet("/users/{userId}", async (string userId) =>
+{
+    var r = await context.GetUserAsync(userId);
+
+    return Results.Ok(r);
+});
+
 app.MapGet("/users/{userId}/exists", async (string userId) =>
 {
     var exists = await context.UserExistsAsync(userId);
