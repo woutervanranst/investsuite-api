@@ -34,7 +34,7 @@
       "wrapResponseMethods": [],
       "generateResponseClasses": true,
       "responseClass": "SwaggerResponse",
-      "namespace": "MyNamespace",
+      "namespace": "UserApi.Controllers",
       "requiredPropertiesMustBeDefined": true,
       "dateType": "System.DateTimeOffset",
       "jsonConverters": null,
@@ -71,7 +71,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../x/x.cs",
+      "output": "Controllers/UsersController.cs",
       "newLineBehavior": "Auto"
     }
   }
