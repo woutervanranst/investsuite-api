@@ -1,7 +1,6 @@
-using System.Net;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
