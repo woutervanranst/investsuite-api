@@ -1,18 +1,20 @@
-﻿using System.Net;
+﻿using Entities.Models;
+using Entities.Utils;
 using Microsoft.Azure.Cosmos;
+using System.Net;
 
-namespace Entities;
+namespace UserApi;
 
-public class UserCosmosDbContext : CosmosDbContext
+public class UserCosmosDbContext : CosmosDbContextBase
 {
     public UserCosmosDbContext(string accountEndpoint, string accountKey, string databaseName,
         string containerName) : base(accountEndpoint, accountKey, databaseName, containerName)
     {
     }
 
-    public async Task<User> GetUserAsync(string userId)
+    public async Task<UserDto> GetUserAsync(string userId)
     {
-        var r = await container.ReadItemAsync<User>(userId, new PartitionKey(userId));
+        var r = await container.ReadItemAsync<UserDto>(userId, new PartitionKey(userId));
         return r.Resource;
     }
 
@@ -20,7 +22,7 @@ public class UserCosmosDbContext : CosmosDbContext
     {
         try
         {
-            var r = await container.ReadItemAsync<User>(userId, new PartitionKey(userId));
+            var r = await container.ReadItemAsync<UserDto>(userId, new PartitionKey(userId));
             return r is not null && r.StatusCode == HttpStatusCode.OK;
         }
         catch (Exception e) when (e is CosmosException { StatusCode: HttpStatusCode.NotFound })

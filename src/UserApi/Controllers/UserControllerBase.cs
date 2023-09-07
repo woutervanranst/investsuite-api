@@ -21,7 +21,7 @@ namespace UserApi.Controllers
 
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
 
-    public abstract class UserControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
+    public abstract class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
         /// Get User Info by User ID
@@ -32,7 +32,7 @@ namespace UserApi.Controllers
         /// <param name="userId">Id of an existing user.</param>
         /// <returns>User Found</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> GetUsersUserId([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersGet([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
 
         /// <summary>
         /// Update User Information
@@ -44,7 +44,7 @@ namespace UserApi.Controllers
         /// <param name="userId">Id of an existing user.</param>
         /// <returns>User Updated</returns>
         [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> PatchUsersUserId([Microsoft.AspNetCore.Mvc.FromBody] Body body, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersPatch([Microsoft.AspNetCore.Mvc.FromBody] Body body, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
 
         /// <summary>
         /// Create New User
@@ -55,14 +55,14 @@ namespace UserApi.Controllers
         /// <param name="body">Post the necessary fields for the API to create a new user.</param>
         /// <returns>User Created</returns>
         [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("user")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> PostUser([Microsoft.AspNetCore.Mvc.FromBody] Body2 body);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> User([Microsoft.AspNetCore.Mvc.FromBody] Body2 body);
 
         /// <summary>
         /// Your GET endpoint
         /// </summary>
         /// <returns>No Content</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("users/{userId}/exists")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> GetUsersUserIdExists([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UsersExists([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
 
     }
 

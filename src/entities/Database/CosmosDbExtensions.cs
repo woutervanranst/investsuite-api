@@ -1,6 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 
-namespace Entities;
+namespace Entities.Database;
 
 public static class CosmosDbExtensions
 {

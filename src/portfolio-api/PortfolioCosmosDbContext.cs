@@ -2,7 +2,7 @@
 
 namespace Entities;
 
-public class PortfolioCosmosDbContext : CosmosDbContext
+public class PortfolioCosmosDbContext : CosmosDbContextBase
 {
     public PortfolioCosmosDbContext(string accountEndpoint, string accountKey, string databaseName,
         string containerName) : base(accountEndpoint, accountKey, databaseName, containerName)

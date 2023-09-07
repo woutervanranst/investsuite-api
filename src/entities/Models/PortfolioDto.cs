@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Entities;
+namespace Entities.Models;
 
-public class Portfolio
+public class PortfolioDto
 {
     [JsonProperty(PropertyName = "id")]
     public string Id { get; set; } = $"P{Guid.NewGuid()}".ToUpperInvariant();
@@ -10,10 +10,10 @@ public class Portfolio
     public string UserId { get; set; }
 }
 
-public class User
+public class UserDto
 {
     [JsonProperty(PropertyName = "id")]
-    public string Id   { get; set; } = $"U{Guid.NewGuid()}".ToUpperInvariant();
+    public string Id { get; set; } = $"U{Guid.NewGuid()}".ToUpperInvariant();
 
     public string FirstName { get; set; }
     public string LastName { get; set; }
