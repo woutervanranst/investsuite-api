@@ -5,9 +5,11 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "user-api", "user-api\user-api.csproj", "{897337BC-FDD9-4829-B325-2E73ED6844A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "portfolio-api", "portfolio-api\portfolio-api.csproj", "{256818B3-74EC-42F9-B7B0-8169D9C3C54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio-api", "portfolio-api\portfolio-api.csproj", "{256818B3-74EC-42F9-B7B0-8169D9C3C54E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "entities", "entities\entities.csproj", "{16997656-AF09-4B97-A465-220974AC2EDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "entities", "entities\entities.csproj", "{16997656-AF09-4B97-A465-220974AC2EDF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Org.OpenAPITools", "user-api-base\src\Org.OpenAPITools\Org.OpenAPITools.csproj", "{B2D1861A-BB06-4EB1-8FE3-99291824ED8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2D1861A-BB06-4EB1-8FE3-99291824ED8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2D1861A-BB06-4EB1-8FE3-99291824ED8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2D1861A-BB06-4EB1-8FE3-99291824ED8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2D1861A-BB06-4EB1-8FE3-99291824ED8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
