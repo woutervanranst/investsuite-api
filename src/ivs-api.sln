@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "portfolio-api", "portfolio-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "entities", "entities\entities.csproj", "{16997656-AF09-4B97-A465-220974AC2EDF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "user-api-base", "user-api-base\src\user-api-base\user-api-base.csproj", "{5686F00A-3D80-429C-A512-C33CFE84327E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16997656-AF09-4B97-A465-220974AC2EDF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5686F00A-3D80-429C-A512-C33CFE84327E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5686F00A-3D80-429C-A512-C33CFE84327E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5686F00A-3D80-429C-A512-C33CFE84327E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5686F00A-3D80-429C-A512-C33CFE84327E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
