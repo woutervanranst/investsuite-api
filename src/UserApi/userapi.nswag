@@ -15,11 +15,11 @@
       "controllerStyle": "Abstract",
       "controllerTarget": "AspNetCore",
       "useCancellationToken": false,
-      "useActionResultType": false,
-      "generateModelValidationAttributes": false,
+      "useActionResultType": true,
+      "generateModelValidationAttributes": true,
       "routeNamingStrategy": "None",
       "basePath": null,
-      "className": "{controller}",
+      "className": "User",
       "operationGenerationMode": "MultipleClientsFromOperationId",
       "additionalNamespaceUsages": [],
       "additionalContractNamespaceUsages": [],
@@ -48,7 +48,7 @@
       "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
       "arrayBaseType": "System.Collections.ObjectModel.Collection",
       "dictionaryBaseType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Poco",
+      "classStyle": "Record",
       "jsonLibrary": "NewtonsoftJson",
       "generateDefaultValues": true,
       "generateDataAnnotations": true,
@@ -71,7 +71,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "Controllers/UsersController.cs",
+      "output": "Controllers/UserControllerBase.cs",
       "newLineBehavior": "Auto"
     }
   }
