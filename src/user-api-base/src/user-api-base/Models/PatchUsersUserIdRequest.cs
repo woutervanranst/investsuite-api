@@ -16,9 +16,9 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Org.OpenAPITools.Converters;
+using user-api-base.Converters;
 
-namespace Org.OpenAPITools.Models
+namespace user-api-base.Models
 { 
     /// <summary>
     /// 

@@ -13,7 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Formatters;
 
-namespace Org.OpenAPITools.Formatters
+namespace user-api-base.Formatters
 {
     /// <inheritdoc />
     public class InputFormatterStream : InputFormatter

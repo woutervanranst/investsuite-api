@@ -20,12 +20,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
-using Org.OpenAPITools.Authentication;
-using Org.OpenAPITools.Filters;
-using Org.OpenAPITools.OpenApi;
-using Org.OpenAPITools.Formatters;
+using user-api-base.Authentication;
+using user-api-base.Filters;
+using user-api-base.OpenApi;
+using user-api-base.Formatters;
 
-namespace Org.OpenAPITools
+namespace user-api-base
 {
     /// <summary>
     /// Startup
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools
                     c.SwaggerDoc("1.0", new OpenApiInfo
                     {
                         Title = "user-api",
-                        Description = "user-api (ASP.NET Core 3.1)",
+                        Description = "user-api (ASP.NET Core 6.0)",
                         TermsOfService = new Uri("https://github.com/openapitools/openapi-generator"),
                         Contact = new OpenApiContact
                         {

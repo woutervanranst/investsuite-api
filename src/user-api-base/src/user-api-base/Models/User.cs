@@ -16,16 +16,24 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Org.OpenAPITools.Converters;
+using user-api-base.Converters;
 
-namespace Org.OpenAPITools.Models
+namespace user-api-base.Models
 { 
     /// <summary>
     /// 
     /// </summary>
     [DataContract]
-    public partial class PostUserRequest : IEquatable<PostUserRequest>
+    public partial class User : IEquatable<User>
     {
+        /// <summary>
+        /// Unique identifier for the given user.
+        /// </summary>
+        /// <value>Unique identifier for the given user.</value>
+        [Required]
+        [DataMember(Name="id", EmitDefaultValue=true)]
+        public Object Id { get; set; }
+
         /// <summary>
         /// Gets or Sets FirstName
         /// </summary>
@@ -50,9 +58,24 @@ namespace Org.OpenAPITools.Models
         /// <summary>
         /// Gets or Sets DateOfBirth
         /// </summary>
-        [Required]
+        /// <example>1997-10-31</example>
         [DataMember(Name="dateOfBirth", EmitDefaultValue=true)]
         public Object DateOfBirth { get; set; }
+
+        /// <summary>
+        /// Set to true if the user&#39;s email has been verified.
+        /// </summary>
+        /// <value>Set to true if the user&#39;s email has been verified.</value>
+        [Required]
+        [DataMember(Name="emailVerified", EmitDefaultValue=true)]
+        public Object EmailVerified { get; set; }
+
+        /// <summary>
+        /// The date that the user was created.
+        /// </summary>
+        /// <value>The date that the user was created.</value>
+        [DataMember(Name="createDate", EmitDefaultValue=true)]
+        public Object CreateDate { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -61,11 +84,14 @@ namespace Org.OpenAPITools.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append("class PostUserRequest {\n");
+            sb.Append("class User {\n");
+            sb.Append("  Id: ").Append(Id).Append("\n");
             sb.Append("  FirstName: ").Append(FirstName).Append("\n");
             sb.Append("  LastName: ").Append(LastName).Append("\n");
             sb.Append("  Email: ").Append(Email).Append("\n");
             sb.Append("  DateOfBirth: ").Append(DateOfBirth).Append("\n");
+            sb.Append("  EmailVerified: ").Append(EmailVerified).Append("\n");
+            sb.Append("  CreateDate: ").Append(CreateDate).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -88,20 +114,25 @@ namespace Org.OpenAPITools.Models
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == GetType() && Equals((PostUserRequest)obj);
+            return obj.GetType() == GetType() && Equals((User)obj);
         }
 
         /// <summary>
-        /// Returns true if PostUserRequest instances are equal
+        /// Returns true if User instances are equal
         /// </summary>
-        /// <param name="other">Instance of PostUserRequest to be compared</param>
+        /// <param name="other">Instance of User to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(PostUserRequest other)
+        public bool Equals(User other)
         {
             if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
 
             return 
+                (
+                    Id == other.Id ||
+                    Id != null &&
+                    Id.Equals(other.Id)
+                ) && 
                 (
                     FirstName == other.FirstName ||
                     FirstName != null &&
@@ -121,6 +152,16 @@ namespace Org.OpenAPITools.Models
                     DateOfBirth == other.DateOfBirth ||
                     DateOfBirth != null &&
                     DateOfBirth.Equals(other.DateOfBirth)
+                ) && 
+                (
+                    EmailVerified == other.EmailVerified ||
+                    EmailVerified != null &&
+                    EmailVerified.Equals(other.EmailVerified)
+                ) && 
+                (
+                    CreateDate == other.CreateDate ||
+                    CreateDate != null &&
+                    CreateDate.Equals(other.CreateDate)
                 );
         }
 
@@ -134,6 +175,8 @@ namespace Org.OpenAPITools.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
+                    if (Id != null)
+                    hashCode = hashCode * 59 + Id.GetHashCode();
                     if (FirstName != null)
                     hashCode = hashCode * 59 + FirstName.GetHashCode();
                     if (LastName != null)
@@ -142,6 +185,10 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + Email.GetHashCode();
                     if (DateOfBirth != null)
                     hashCode = hashCode * 59 + DateOfBirth.GetHashCode();
+                    if (EmailVerified != null)
+                    hashCode = hashCode * 59 + EmailVerified.GetHashCode();
+                    if (CreateDate != null)
+                    hashCode = hashCode * 59 + CreateDate.GetHashCode();
                 return hashCode;
             }
         }
@@ -149,12 +196,12 @@ namespace Org.OpenAPITools.Models
         #region Operators
         #pragma warning disable 1591
 
-        public static bool operator ==(PostUserRequest left, PostUserRequest right)
+        public static bool operator ==(User left, User right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(PostUserRequest left, PostUserRequest right)
+        public static bool operator !=(User left, User right)
         {
             return !Equals(left, right);
         }

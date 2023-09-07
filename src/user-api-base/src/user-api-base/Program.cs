@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Org.OpenAPITools
+namespace user-api-base
 {
     /// <summary>
     /// Program

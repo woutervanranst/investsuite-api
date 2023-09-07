@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using System.Text;
 
-namespace Org.OpenAPITools.OpenApi
+namespace user-api-base.OpenApi
 {
     /// <summary>
     /// Replacement utilities from Swashbuckle.AspNetCore.SwaggerGen which are not in 5.x
