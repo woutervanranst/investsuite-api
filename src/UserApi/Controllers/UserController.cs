@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using UserApi.Database;
 
 namespace UserApi.Controllers;
 
@@ -11,28 +12,28 @@ public class UserController : ControllerBase
         this.context = context;
     }
 
-    public override Task<ActionResult<User>> UsersGet(int userId)
+    public override async Task<ActionResult<User>> UsersGet(string userId)
     {
-        throw new NotImplementedException();
-    }
+        var r = await context.GetUserAsync(userId);
 
-    public override Task<ActionResult<User>> UsersPatch(Body body, int userId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override Task<ActionResult<User>> User(Body2 body)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override async Task<IActionResult> UsersExists(string userId)
-    {
-        var exists = await context.UserExistsAsync(userId);
-
-        if (exists)
-            return NoContent();
-        else
+        if (r is null)
             return NotFound();
+        else
+            return Ok(r);
+    }
+
+    public override Task<ActionResult<User>> UsersPatch(User body, string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task<IActionResult> UsersPost(User body, string userId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public override Task<IActionResult> UsersDelete(string userId)
+    {
+        throw new NotImplementedException();
     }
 }

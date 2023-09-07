@@ -4,12 +4,20 @@ https://openapi-generator.tech/docs/generators/csharp/
 
 https://github.com/OpenAPITools/openapi-generator
 
-https://github.com/alekshura/SourceApi
+
 
 https://github.com/RicoSuter/NSwag
 
-```wsl
 
+
+
+
+  https://srikargandhi.medium.com/api-design-first-approach-d02505306b3
+
+
+  # With OpenApiGeneratorCli
+
+  ```wsl
 docker run --rm \
   -v ${PWD}:/local openapitools/openapi-generator-cli generate  \
   -i /local/user-api.yaml \
@@ -18,3 +26,7 @@ docker run --rm \
   --additional-properties=aspnetCoreVersion=6.0,packageName=UserApi,netCoreProjectFile=true
 
   ```
+
+# With SourceAPI
+
+https://github.com/alekshura/SourceApi

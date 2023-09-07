@@ -1,4 +1,7 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using Entities.Database;
+using Entities.Models;
+using Entities.Utils;
+using Microsoft.Azure.Cosmos;
 
 namespace Entities;
 
@@ -9,15 +12,15 @@ public class PortfolioCosmosDbContext : CosmosDbContextBase
     {
     }
 
-    public IAsyncEnumerable<Portfolio> GetPortfoliosByUserIdAsync(string userId)
+    public IAsyncEnumerable<PortfolioDto> GetPortfoliosByUserIdAsync(string userId)
     {
         var query = new QueryDefinition("SELECT * FROM Portfolios p WHERE p.UserId = @userId")
             .WithParameter("@userId", userId);
 
-        return container.GetItemQueryIterator<Portfolio>(query).ToAsyncEnumerable();
+        return container.GetItemQueryIterator<PortfolioDto>(query).ToAsyncEnumerable();
     }
 
-    public async Task<Portfolio> CreatePortfolioAsync(Portfolio p)
+    public async Task<PortfolioDto> CreatePortfolioAsync(PortfolioDto p)
     {
         var r = await container.CreateItemAsync(p);
         return r.Resource;

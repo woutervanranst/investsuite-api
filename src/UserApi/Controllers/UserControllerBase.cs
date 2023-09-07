@@ -24,45 +24,39 @@ namespace UserApi.Controllers
     public abstract class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {
         /// <summary>
-        /// Get User Info by User ID
+        /// Get User by ID
         /// </summary>
         /// <remarks>
         /// Retrieve the information of the user with the matching user ID.
         /// </remarks>
-        /// <param name="userId">Id of an existing user.</param>
         /// <returns>User Found</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersGet([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersGet([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
 
         /// <summary>
-        /// Update User Information
+        /// Update User
         /// </summary>
         /// <remarks>
         /// Update the information of an existing user.
         /// </remarks>
         /// <param name="body">Patch user properties to update.</param>
-        /// <param name="userId">Id of an existing user.</param>
         /// <returns>User Updated</returns>
         [Microsoft.AspNetCore.Mvc.HttpPatch, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersPatch([Microsoft.AspNetCore.Mvc.FromBody] Body body, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] int userId);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> UsersPatch([Microsoft.AspNetCore.Mvc.FromBody] User body, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
 
         /// <summary>
-        /// Create New User
+        /// Create User
         /// </summary>
-        /// <remarks>
-        /// Create a new user.
-        /// </remarks>
-        /// <param name="body">Post the necessary fields for the API to create a new user.</param>
-        /// <returns>User Created</returns>
-        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("user")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<User>> User([Microsoft.AspNetCore.Mvc.FromBody] Body2 body);
+        /// <returns>OK</returns>
+        [Microsoft.AspNetCore.Mvc.HttpPost, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UsersPost([Microsoft.AspNetCore.Mvc.FromBody] User body, [Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
 
         /// <summary>
-        /// Your GET endpoint
+        /// Delete User
         /// </summary>
-        /// <returns>No Content</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("users/{userId}/exists")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UsersExists([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
+        /// <returns>OK</returns>
+        [Microsoft.AspNetCore.Mvc.HttpDelete, Microsoft.AspNetCore.Mvc.Route("users/{userId}")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.IActionResult> UsersDelete([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] string userId);
 
     }
 
@@ -71,7 +65,7 @@ namespace UserApi.Controllers
     {
         [Newtonsoft.Json.JsonConstructor]
 
-        public User(System.DateTimeOffset @createDate, System.DateTimeOffset @dateOfBirth, string @email, bool @emailVerified, string @firstName, int @id, string @lastName)
+        public User(System.DateTimeOffset @createDate, System.DateTimeOffset @dateOfBirth, string @email, string @firstName, string @id, string @lastName)
 
         {
 
@@ -85,37 +79,27 @@ namespace UserApi.Controllers
 
             this.DateOfBirth = @dateOfBirth;
 
-            this.EmailVerified = @emailVerified;
-
             this.CreateDate = @createDate;
 
         }    /// <summary>
         /// Unique identifier for the given user.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
-        public int Id { get; }
-
-        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Id { get; }
+
+        [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string FirstName { get; }
 
-        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string LastName { get; }
 
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Email { get; }
 
         [Newtonsoft.Json.JsonProperty("dateOfBirth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset DateOfBirth { get; }
-
-        /// <summary>
-        /// Set to true if the user's email has been verified.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("emailVerified", Required = Newtonsoft.Json.Required.Always)]
-        public bool EmailVerified { get; }
 
         /// <summary>
         /// The date that the user was created.
@@ -123,94 +107,6 @@ namespace UserApi.Controllers
         [Newtonsoft.Json.JsonProperty("createDate", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [Newtonsoft.Json.JsonConverter(typeof(DateFormatConverter))]
         public System.DateTimeOffset CreateDate { get; }
-
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Body
-    {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public Body(string @dateOfBirth, string @email, string @firstName, string @lastName)
-
-        {
-
-            this.FirstName = @firstName;
-
-            this.LastName = @lastName;
-
-            this.Email = @email;
-
-            this.DateOfBirth = @dateOfBirth;
-
-        }    [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string FirstName { get; }
-
-        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string LastName { get; }
-
-        /// <summary>
-        /// If a new email is given, the user's email verified property will be set to false.
-        /// </summary>
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Email { get; }
-
-        [Newtonsoft.Json.JsonProperty("dateOfBirth", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string DateOfBirth { get; }
-
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
-
-        [Newtonsoft.Json.JsonExtensionData]
-        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
-        {
-            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
-            set { _additionalProperties = value; }
-        }
-
-    }
-
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class Body2
-    {
-        [Newtonsoft.Json.JsonConstructor]
-
-        public Body2(System.DateTimeOffset @dateOfBirth, string @email, string @firstName, string @lastName)
-
-        {
-
-            this.FirstName = @firstName;
-
-            this.LastName = @lastName;
-
-            this.Email = @email;
-
-            this.DateOfBirth = @dateOfBirth;
-
-        }    [Newtonsoft.Json.JsonProperty("firstName", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string FirstName { get; }
-
-        [Newtonsoft.Json.JsonProperty("lastName", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string LastName { get; }
-
-        [Newtonsoft.Json.JsonProperty("email", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Email { get; }
-
-        [Newtonsoft.Json.JsonProperty("dateOfBirth", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [Newtonsoft.Json.JsonConverter(typeof(DateFormatConverter))]
-        public System.DateTimeOffset DateOfBirth { get; }
 
         private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
 

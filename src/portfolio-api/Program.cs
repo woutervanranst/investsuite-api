@@ -1,4 +1,5 @@
 using Entities;
+using Entities.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -45,7 +46,7 @@ app.MapGet("/portfolios", async ([FromQuery] string userId) =>
     return Results.Ok(portfolios);
 });
 
-app.MapPost("/portfolios", async (Portfolio p, IHttpClientFactory clientFactory) =>
+app.MapPost("/portfolios", async (PortfolioDto p, IHttpClientFactory clientFactory) =>
 {
     // Validate User
     var c = clientFactory.CreateClient("UserApi");

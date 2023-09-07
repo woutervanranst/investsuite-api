@@ -1,45 +1,44 @@
-using Entities;
 
-var builder = WebApplication.CreateBuilder(args);
+using UserApi.Database;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace UserApi
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
+            var cosmosKey          = builder.Configuration["CosmosKey"];
+            var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
+            var containerName      = builder.Configuration["CosmosContainerName"];
+
+            // Add services to the container.
+            builder.Services.AddScoped<UserCosmosDbContext>(_ => new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName));
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            app.Run();
+        }
+    }
 }
-
-app.UseHttpsRedirection();
-
-var cosmosEndpoint     = builder.Configuration["CosmosEndpoint"];
-var cosmosKey          = builder.Configuration["CosmosKey"];
-var cosmosDatabaseName = builder.Configuration["CosmosDatabaseName"];
-var containerName      = builder.Configuration["CosmosContainerName"];
-
-var context = new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName);
-
-app.MapGet("/users/{userId}", async (string userId) =>
-{
-    var r = await context.GetUserAsync(userId);
-
-    return Results.Ok(r);
-});
-
-app.MapGet("/users/{userId}/exists", async (string userId) =>
-{
-    var exists = await context.UserExistsAsync(userId);
-
-    if (exists)
-        return Results.NoContent();
-    else
-        return Results.NotFound();
-});
-
-app.Run();
