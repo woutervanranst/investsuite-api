@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserApi.Database;
 
 namespace UserApi.Controllers;
@@ -12,6 +13,7 @@ public class UserController : ControllerBase
         this.context = context;
     }
 
+    [Authorize("read:user")]
     public override async Task<ActionResult<User>> UsersGet(string userId)
     {
         var r = await context.GetUserAsync(userId);
