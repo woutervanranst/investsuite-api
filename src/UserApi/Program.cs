@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using UserApi.Database;
 
@@ -9,21 +10,24 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        // Tutorial: https://auth0.com/docs/quickstart/backend/aspnet-core-webapi/01-authorization
+
         var builder = WebApplication.CreateBuilder(args);
 
-        var cosmosEndpoint     = builder.Configuration["CosmosDb:Endpoint"];
-        var cosmosKey          = builder.Configuration["CosmosDb:Key"];
-        var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"];
-        var containerName      = builder.Configuration["CosmosDb:ContainerName"];
 
+        // Add logging
         builder.Logging.AddConsole();
         builder.Logging.AddDebug();
         builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
 
         // Add services to the container.
+        var cosmosEndpoint     = builder.Configuration["CosmosDb:Endpoint"];
+        var cosmosKey          = builder.Configuration["CosmosDb:Key"];
+        var cosmosDatabaseName = builder.Configuration["CosmosDb:DatabaseName"];
+        var containerName      = builder.Configuration["CosmosDb:ContainerName"];
         builder.Services.AddScoped<UserCosmosDbContext>(_ => new UserCosmosDbContext(cosmosEndpoint, cosmosKey, cosmosDatabaseName, containerName));
-        //builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+        
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
@@ -58,55 +62,29 @@ public class Program
         });
 
 
-        var domain   = $"https://{builder.Configuration["Auth0:Domain"]}";
-        var audience = builder.Configuration["Auth0:Audience"]; //beware of trailing slashes
-        builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme    = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(options =>
-        {
-            options.Authority = domain;
-            options.Audience  = audience;
-
-            options.Events = new JwtBearerEvents
+        // Add authentication and authorization
+        var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
             {
-                OnAuthenticationFailed = context =>
+                options.Authority = domain;
+                options.Audience  = builder.Configuration["Auth0:Audience"];
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    Console.WriteLine($"Authentication failed. Exception: {context.Exception}");
-                    return Task.CompletedTask;
-                },
-                OnTokenValidated = context =>
-                {
-                    Console.WriteLine("Token was validated.");
-                    return Task.CompletedTask;
-                }
-            };
-        });
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
+            });
         builder.Services.AddAuthorization(options =>
         {
-            options.AddPolicy("read:user", policy => policy.RequireClaim("scope", "read:user"));
+            options.AddPolicy("read:user", policy => policy.Requirements.Add(new
+                HasScopeRequirement("read:user", domain)));
         });
+        builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+
         builder.Services.AddControllers();
 
-
-        //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //    .AddJwtBearer(options =>
-        //    {
-        //        options.Authority = domain;
-        //        options.Audience  = audience;
-        //        options.TokenValidationParameters = new TokenValidationParameters
-        //        {
-        //            NameClaimType = ClaimTypes.NameIdentifier,
-        //            ValidAudience = audience
-        //        };
-        //    });
-        //builder.Services.AddAuthorization(options =>
-        //{
-        //    options.AddPolicy("read:user", policy => policy.Requirements.Add(new HasScopeRequirement("read:user", domain)));
-        //});
-
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -117,25 +95,26 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseRouting();
+
         app.UseAuthentication();
         app.UseAuthorization();
-
         app.MapControllers();
 
-        app.Use(async (context, next) =>
-        {
-            var identity = context.User.Identity;
-            if (identity != null && identity.IsAuthenticated)
-            {
-                //_logger.LogInformation($"User {identity.Name} is authenticated with {identity.AuthenticationType}.");
-            }
-            else
-            {
-                //_logger.LogInformation("User is not authenticated.");
-            }
+        //app.Use(async (context, next) =>
+        //{
+        //    var identity = context.User.Identity;
+        //    if (identity != null && identity.IsAuthenticated)
+        //    {
+        //        //_logger.LogInformation($"User {identity.Name} is authenticated with {identity.AuthenticationType}.");
+        //    }
+        //    else
+        //    {
+        //        //_logger.LogInformation("User is not authenticated.");
+        //    }
 
-            await next.Invoke();
-        });
+        //    await next.Invoke();
+        //});
 
 
         app.Run();
